@@ -1,0 +1,6 @@
+.streamlit/secrets.toml
+.env
+.env_special_report
+__pycache__/
+*.pyc
+.streamlit/config.toml
