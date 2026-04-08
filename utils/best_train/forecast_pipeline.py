@@ -14,7 +14,7 @@ best_train_time.py (Streamlit 앱) 실행 시 자동으로 호출된다.
 ────────────────────────────────────────────────────────────────
 """
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -26,7 +26,8 @@ from utils.best_train.weather_api import _fetch_area
 from utils.best_train.training_logic import compute_apparent_temperatures
 
 # CSV 저장 기준 디렉터리 (프로젝트 루트 기준 상대경로 — 실행 위치는 항상 루트)
-DEFAULT_DATA_DIR = "data/forecast"
+# DEFAULT_DATA_DIR = "data/forecast"
+DEFAULT_DATA_DIR = "/tmp/forecast"  # Streamlit Cloud 전용
 
 # secrets.toml 위치: utils/ 의 두 단계 위 → 프로젝트 루트/.streamlit/
 _SECRETS_PATH = Path(__file__).parent.parent / ".streamlit" / "secrets.toml"
@@ -316,7 +317,9 @@ def run_collection_pipeline(
 
 def _cli_get_forecast_data() -> tuple[pd.DataFrame, str, str, list[str]]:
     """CLI 단독 실행 시에만 사용. _fetch_area() 로 직접 수집."""
-    now          = datetime.now()
+    KST = timezone(timedelta(hours=9))
+    now = datetime.now(KST)
+    # now          = datetime.now()
     base_date    = (now - timedelta(days=1)).strftime('%Y%m%d')
     base_time    = "2300"
     target_dates = [(now + timedelta(days=i)).strftime('%Y%m%d') for i in range(3)]

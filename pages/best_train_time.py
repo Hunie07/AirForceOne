@@ -36,7 +36,7 @@ import streamlit as st
 from services import init_session
 from ui import render_sidebar_ui, render_streamlit_base_style
 import pandas as pd
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from streamlit_folium import st_folium
 
 # ── 단기예보 ──────────────────────────────────────────────────────────────────
@@ -100,7 +100,9 @@ if weather_df is None or weather_df.empty:
             st.warning(err)
     st.stop()
 
-now        = datetime.now()
+KST = timezone(timedelta(hours=9))
+now = datetime.now(KST)
+# now        = datetime.now()
 dates      = sorted(weather_df["날짜"].unique().tolist())
 month      = int(dates[0].split("/")[0]) if dates else now.month
 is_summer  = month in SUMMER_MONTHS
