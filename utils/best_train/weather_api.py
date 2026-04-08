@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 import streamlit as st
 from xml.etree import ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from utils.best_train.config import (
     SERVICE_KEY,
@@ -137,7 +137,8 @@ def get_weather_data() -> pd.DataFrame:
     오류 발생 시 st.session_state['api_errors'] 에 목록 저장.
     데이터가 전혀 없으면 빈 DataFrame 반환.
     """
-    now = datetime.now()
+    KST = timezone(timedelta(hours=9))
+    now = datetime.now(KST)
     yesterday  = now - timedelta(days=1)
     base_date  = yesterday.strftime('%Y%m%d')
     base_time  = "2300"
