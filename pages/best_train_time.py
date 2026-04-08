@@ -103,7 +103,11 @@ if weather_df is None or weather_df.empty:
 KST = timezone(timedelta(hours=9))
 now = datetime.now(KST)
 # now        = datetime.now()
-dates      = sorted(weather_df["날짜"].unique().tolist())
+dates = sorted(
+    weather_df["날짜"].unique().tolist(),
+    key=lambda d: tuple(int(x) for x in d.split("/"))
+)
+# dates      = sorted(weather_df["날짜"].unique().tolist())
 month      = int(dates[0].split("/")[0]) if dates else now.month
 is_summer  = month in SUMMER_MONTHS
 target_col = "온도지수" if is_summer else "체감온도"
@@ -168,7 +172,8 @@ with region_col:
 
 @st.fragment(run_every=1)
 def live_clock():
-    _now = datetime.now()
+    KST = timezone(timedelta(hours=9))
+    _now = datetime.now(KST)
     st.caption("현재 시각")
     st.write(f"#### {_now.strftime('%H:%M:%S')}")
 
