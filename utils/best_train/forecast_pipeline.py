@@ -305,11 +305,16 @@ def run_collection_pipeline(
     { 'df': 전처리 완료 DataFrame, 'csv_path': 저장된 CSV 경로 }
     """
     df       = preprocess_forecast_df(weather_df, base_date, base_time)
-    csv_path = save_to_dated_csv(df, target_dates, data_dir)
+    # csv_path = save_to_dated_csv(df, target_dates, data_dir)
+    csv_path = None
+    try:
+        csv_path = save_to_dated_csv(df, target_dates, data_dir)
+    except Exception as e:
+        print(f"  ⚠️ CSV 저장 실패 (무시하고 계속): {e}")
+
     if not skip_db:
         save_to_db(df)
     return {"df": df, "csv_path": csv_path}
-
 
 # ══════════════════════════════════════════════════════════════════════════════
 # CLI 단독 실행 (선택) — python -m utils.best_train_forecast_pipeline
