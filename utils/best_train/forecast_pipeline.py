@@ -26,8 +26,8 @@ from utils.best_train.weather_api import _fetch_area
 from utils.best_train.training_logic import compute_apparent_temperatures
 
 # CSV 저장 기준 디렉터리 (프로젝트 루트 기준 상대경로 — 실행 위치는 항상 루트)
-# DEFAULT_DATA_DIR = "data/forecast"
-DEFAULT_DATA_DIR = "/tmp/forecast"  # Streamlit Cloud 전용
+DEFAULT_DATA_DIR = "data/forecast"
+# DEFAULT_DATA_DIR = "/tmp/forecast"  # Streamlit Cloud 전용
 
 # secrets.toml 위치: utils/ 의 두 단계 위 → 프로젝트 루트/.streamlit/
 _SECRETS_PATH = Path(__file__).parent.parent / ".streamlit" / "secrets.toml"
