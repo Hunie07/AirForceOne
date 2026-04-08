@@ -166,8 +166,7 @@ def render_heatmap(df: pd.DataFrame, disp_name: str) -> None:
                     label="💾 이미지 저장", data=img_bytes,
                     file_name=dl_name, mime="image/png", use_container_width=True,
                 )
-            except Exception as e:
-                st.error(f"{e}")
+            except Exception:
                 st.warning("⚠️ `pip install kaleido` 필요")
 
         fig = create_heatmap_figure(
