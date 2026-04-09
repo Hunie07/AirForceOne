@@ -129,7 +129,7 @@ if st.session_state.get("pipeline_saved_for") != today_str:
     except Exception as e:
         st.warning(f"⚠️ 단기예보 데이터 저장 실패: {e}")
 
-data = pd.read(csv_path) ##### 수정수정
+data = pd.read_csv(csv_path) ##### 수정수정
 st.dataframe(data)
 st.stop()
 # ══════════════════════════════════════════════════════════════════════════════
