@@ -121,14 +121,17 @@ target_dates = [(now + timedelta(days=i)).strftime("%Y%m%d") for i in range(3)]
 
 if st.session_state.get("pipeline_saved_for") != today_str:
     try:
-        run_collection_pipeline(
+        csv_path = run_collection_pipeline(
             weather_df=weather_df, base_date=base_date,
             base_time=base_time, target_dates=target_dates,
-        )
+        )['csv_path'] ##### 수정수정
         st.session_state["pipeline_saved_for"] = today_str
     except Exception as e:
         st.warning(f"⚠️ 단기예보 데이터 저장 실패: {e}")
 
+data = pd.read(csv_path) ##### 수정수정
+st.dataframe(data)
+st.stop()
 # ══════════════════════════════════════════════════════════════════════════════
 # 2. 특보 데이터 수집
 # ══════════════════════════════════════════════════════════════════════════════
